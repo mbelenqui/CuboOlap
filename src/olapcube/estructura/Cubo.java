@@ -21,6 +21,7 @@ public class Cubo {
     private Map<String, Medida> medidas;        // Mapeo de nombres de medida al objeto de la medida
     private List<Celda> celdas;                 // Lista de celdas del cubo
     private List<String> nombresHechos;         // Nombres de los hechos (columnas con valores del dataset de hechos)
+    private Map<String, Set<String>> filtros;  // Mapeo de nombre de Dimension a Cojunto de valores a filtrar
 
     private Cubo() {
         dimensiones = new HashMap<>();
@@ -30,7 +31,11 @@ public class Cubo {
         // TODO: Externalizar esta configuracion
         medidas = new HashMap<>();
         medidas.put("suma", new Suma());
+
+        filtros = new HashMap<>;
+
     }
+        
 
     /**
      * Método constructor que permite crear un cubo a partir de una configuración
@@ -67,8 +72,25 @@ public class Cubo {
 
             indiceCelda++;
         }
-
+        inicializarFiltros();
         return cubo;
+    }
+
+    public void inicializarFiltros(){
+        for (Dimension dimension : dimensiones.values()){
+            //Replica la dimension completa 
+            Set<String> conjuntoValores = new HashSet<>();
+        
+            for(String valor: dimension.getValores()){
+
+                conjuntoValores.add(valor);
+
+            }
+            
+            filtros.put(dimension.getNombre(),conjuntoValores);
+
+
+        }
     }
 
     public List<String> getNombresHechos() {
@@ -163,5 +185,9 @@ public class Cubo {
 
     public Proyeccion proyectar() {
         return new Proyeccion(this);
+    }
+    //Queremos que pueda hacer Slice por dimension y por valor, valor tambien podria ser un arreglo de str
+    public void slice(String nombreDim, String valor){
+       
     }
 }
