@@ -21,7 +21,7 @@ public class Cubo {
     private Map<String, Medida> medidas;        // Mapeo de nombres de medida al objeto de la medida
     private List<Celda> celdas;                 // Lista de celdas del cubo
     private List<String> nombresHechos;         // Nombres de los hechos (columnas con valores del dataset de hechos)
-    private Map<String, Set<String>> filtros;  // Mapeo de nombre de Dimension a Cojunto de valores a filtrar
+   // private Map<String, Set<String>> filtros;  // Mapeo de nombre de Dimension a Cojunto de valores a filtrar
 
     private Cubo() {
         dimensiones = new HashMap<>();
@@ -31,8 +31,7 @@ public class Cubo {
         // TODO: Externalizar esta configuracion
         medidas = new HashMap<>();
         medidas.put("suma", new Suma());
-
-        filtros = new HashMap<>;
+       // filtros = new HashMap<>;
 
     }
         
@@ -72,26 +71,20 @@ public class Cubo {
 
             indiceCelda++;
         }
-        inicializarFiltros();
+        //cubo.inicializarFiltros();
         return cubo;
     }
 
-    public void inicializarFiltros(){
-        for (Dimension dimension : dimensiones.values()){
-            //Replica la dimension completa 
-            Set<String> conjuntoValores = new HashSet<>();
-        
-            for(String valor: dimension.getValores()){
-
-                conjuntoValores.add(valor);
-
-            }
-            
-            filtros.put(dimension.getNombre(),conjuntoValores);
-
-
-        }
-    }
+    // public void inicializarFiltros(){
+    //     for (Dimension dimension : dimensiones.values()){
+    //         //Replica la dimension completa 
+    //         Set<String> conjuntoValores = new HashSet<>();       
+    //         for(String valor: dimension.getValores()){
+    //             conjuntoValores.add(valor);
+    //         }           
+    //         filtros.put(dimension.getNombre(),conjuntoValores);
+    //     }
+    // }
 
     public List<String> getNombresHechos() {
         return nombresHechos;
@@ -153,9 +146,11 @@ public class Cubo {
      * @return Celda que agrupa todas las celdas que contienen el valor en esa dimensión
      */
     public Celda getCelda(Dimension dimension, String valor) {
-        return Celda.agrupar(celdasFromIndices(dimension.getIndicesCeldas(valor)));
+        
+        return Celda.agrupar(celdasFromIndices(dimension.getIndicesCeldas(valor)));    
+        
     }
-
+      
     /**
      * Obtiene una celda a partir de dos dimensiones y dos valores, reduciendo la dimensión restante.
      * 
@@ -187,7 +182,18 @@ public class Cubo {
         return new Proyeccion(this);
     }
     //Queremos que pueda hacer Slice por dimension y por valor, valor tambien podria ser un arreglo de str
-    public void slice(String nombreDim, String valor){
-       
+    public Cubo slice(String nombreDim, String valor){
+        Cubo cubo = new Cubo;
+        //TODO: Mejorar (copia superficial,revisar)
+           
+        cubo.dimensiones = this.dimensiones.copiar();
+        cubo.medidas = this.medidas;
+        cubo.celdas = this.celdas;
+        cubo.nombresHechos = this.getNombresHechos;
+        
+        cubo.dimensiones.get(nombreDim).filtrar(valor);
+        
+        return cubo;
+    
     }
 }

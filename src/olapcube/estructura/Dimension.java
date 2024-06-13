@@ -52,6 +52,7 @@ public class Dimension {
     }
 
     public String[] getValores() {
+    
         return valoresToCeldas.keySet().toArray(new String[0]);
     }
 

@@ -6,6 +6,8 @@ import olapcube.estructura.Celda;
 import olapcube.estructura.Cubo;
 import olapcube.estructura.Dimension;
 
+//TODO: que evite proyectar las celdas vacias que generamos en GetCelda
+
 /**
  * Clase que representa una proyeccion de un cubo OLAP
  */
