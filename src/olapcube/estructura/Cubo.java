@@ -185,8 +185,11 @@ public class Cubo {
     public Cubo slice(String nombreDim, String valor){
         Cubo cubo = new Cubo;
         //TODO: Mejorar (copia superficial,revisar)
-           
-        cubo.dimensiones = this.dimensiones.copiar();
+        cubo.dimensiones = = new HashMap<>();
+        for(Dimension dimension: this.dimensiones.values()){
+            cubo.dimensiones.put(dimension.getNombre(),dimension.copiar())
+        }
+         this.dimensiones.get(nombreDim).copiar();
         cubo.medidas = this.medidas;
         cubo.celdas = this.celdas;
         cubo.nombresHechos = this.getNombresHechos;

@@ -16,6 +16,8 @@ public class Dimension {
     private Map<Integer, String> idToValores;           // Mapeo de ids (pk) de la dimensión a valores
     private int columnaFkHechos;                        // Columna que contiene la clave foránea en la tabla de los hechos
     
+
+
     /**
      * Constructor de la clase
      * 
@@ -45,6 +47,33 @@ public class Dimension {
 
         return dim;
     }
+
+    public Dimension copiar{
+        Dimension nueva = new Dimension (this.nombre);
+        nueva.valoresToCeldas = new HashMap<>;
+        for (String valor = this.valoresToCeldas.keySet()){
+            nueva.valoresToCeldas.put(valor, this.valoresToCeldas.get(valor));
+        }
+        nueva.idToValores = thiS.idToValores;
+        nueva.columnaFkHechos = this.columnaFkHechos;
+        return nueva;
+    }
+
+    public void filtrar(String valor){
+        //Forma sencilla no tan eficiente
+        // for(String valorDim: valoresToCeldas.keySet()){
+        //     if (valorDim != valor){
+        //         valoresToCeldas.remove(valorDim);
+        //     }
+        // }
+        //Forma mas eficiente
+        HashMap<String,Set<Integer>> nuevosValores = new HashMap<>();
+        nuevosValores.put(valor,valoresToCeldas.get(valor));
+        valoresToCeldas = nuevosValores;
+
+    }
+
+        
 
     @Override
     public String toString() {
